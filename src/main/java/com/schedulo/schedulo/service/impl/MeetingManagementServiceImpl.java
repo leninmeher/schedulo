@@ -7,6 +7,7 @@ import com.schedulo.schedulo.model.CreateMeetingReqDto;
 import com.schedulo.schedulo.model.MeetingByUserRespDto;
 import com.schedulo.schedulo.repository.MeetingRepository;
 import com.schedulo.schedulo.service.MeetingManagementService;
+import com.schedulo.schedulo.service.MeetingOrchestrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,9 @@ public class MeetingManagementServiceImpl implements MeetingManagementService {
 
     @Autowired
     private MeetingRepository meetingRepository;
+
+    @Autowired
+    private MeetingOrchestrationService meetingOrchestrationService;
 
     @Override
     public Meeting createMeeting(CreateMeetingReqDto requestDto) throws Exception{
@@ -38,7 +42,13 @@ public class MeetingManagementServiceImpl implements MeetingManagementService {
         meeting.setMeetingType(requestDto.getMeetingType());
         meeting.setUpdatedOn(LocalDateTime.now());
 
-        return meetingRepository.save(meeting);
+        Meeting savedMeeting =  meetingRepository.save(meeting);
+
+        meetingOrchestrationService.createMeeting(savedMeeting);
+
+        return savedMeeting;
+
+
 
     }
     @Override
