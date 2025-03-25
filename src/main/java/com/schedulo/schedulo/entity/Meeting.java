@@ -37,7 +37,7 @@ public class Meeting {
     private String meetingType;
 
     @Column(name="OWNER")
-    private String Owner;
+    private String owner;
 
     @Lob
     @Column(name="PARTICIPANTS", columnDefinition = "BYTEA")
