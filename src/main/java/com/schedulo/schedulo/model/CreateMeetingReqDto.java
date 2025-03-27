@@ -32,4 +32,6 @@ public class CreateMeetingReqDto {
 
     @NotEmpty(message = "Participants list cannot be empty")
     private List<String> participantsMail;
+
+    private String status;
 }

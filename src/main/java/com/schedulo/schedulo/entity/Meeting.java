@@ -50,6 +50,9 @@ public class Meeting {
     @Column(name="UPDATED_ON")
     private LocalDateTime updatedOn;
 
+    @Column(name="STATUS")
+    private String status;
+
     @Transient
     private List<String> participantsMail;
 
