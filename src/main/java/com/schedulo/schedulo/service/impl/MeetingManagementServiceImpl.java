@@ -1,6 +1,7 @@
 package com.schedulo.schedulo.service.impl;
 
 import com.schedulo.schedulo.entity.Meeting;
+import com.schedulo.schedulo.enums.MeetingStatus;
 import com.schedulo.schedulo.entity.ParticipantsMeeting;
 import com.schedulo.schedulo.enums.MeetingType;
 import com.schedulo.schedulo.exception.UserErrorException;
@@ -42,11 +43,17 @@ public class MeetingManagementServiceImpl implements MeetingManagementService {
         meeting.setMeetingStartTime(requestDto.getMeetingStartTime());
         meeting.setMeetingEndTime(requestDto.getMeetingEndTime());
         meeting.setOwner(requestDto.getOwner());
+        if("S".equalsIgnoreCase(requestDto.getStatus())){
+            meeting.setStatus(MeetingStatus.SCHEDULED.getCode());
+            meeting.setMeetingType(MeetingType.SCHEDULED.getCode());
+        }else if("O".equalsIgnoreCase(requestDto.getStatus())){
+            meeting.setStatus(MeetingStatus.ONGOING.getCode());
+            meeting.setMeetingType(MeetingType.CURRENT.getCode());
+        }
 
         byte[] participantsBlob = String.join(",", requestDto.getParticipantsMail()).getBytes();
         meeting.setParticipants(participantsBlob);
 
-        meeting.setMeetingType(requestDto.getMeetingType());
         meeting.setUpdatedOn(LocalDateTime.now());
 
         Meeting savedMeeting =  meetingRepository.save(meeting);
