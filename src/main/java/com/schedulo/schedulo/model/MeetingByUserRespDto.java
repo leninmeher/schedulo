@@ -31,4 +31,7 @@ public class MeetingByUserRespDto {
 
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
+    private Boolean isDeleted;
+    private  String role;
+
 }

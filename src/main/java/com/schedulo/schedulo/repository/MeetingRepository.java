@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface MeetingRepository extends JpaRepository<Meeting, String> {
 
-    List<Meeting> findByOwner(String email);
+    List<Meeting> findByOwnerAndStatus(String email,String status);
 
     @Modifying
     @Transactional
@@ -29,4 +29,6 @@ public interface MeetingRepository extends JpaRepository<Meeting, String> {
             "WHERE status = 'S'\n" +
             "  AND END_TIME BETWEEN NOW() AND NOW() - INTERVAL '1 minutes'", nativeQuery = true)
     List<Meeting> setLastFiveMinutesCompletedMeeting(String status);
+
+    List<Meeting> findByStatusAndMeetingIdIn(String status,List<Long> meetingId);
 }
